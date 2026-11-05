@@ -1,5 +1,7 @@
 // vistas.js · qué se muestra en cada sección.
 // Cada etapa reemplaza una "vistaPendiente" por la pantalla real.
+// vistas.js · qué se muestra en cada sección.
+// Cada etapa reemplaza una "vistaPendiente" por la pantalla real.
 import { crear } from './comun.js';
 import { vistaInicio } from './vistas/inicio.js';
 import { vistaSocios } from './vistas/socios.js';
