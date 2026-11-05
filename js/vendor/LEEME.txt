@@ -1,0 +1,8 @@
+Acá va UN solo archivo: supabase.js (librería oficial de Supabase, versión 2).
+
+Cómo conseguirlo:
+  1. Abrí en el navegador:
+     https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js
+  2. Guardalo (Ctrl+S) con el nombre exacto  supabase.js  en esta carpeta.
+
+Sin ese archivo el sitio muestra un aviso y no deja ingresar.

@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://*.supabase.co wss://*.supabase.co; base-uri 'none'; form-action 'self'">
+<meta name="robots" content="noindex, nofollow">
+<meta name="color-scheme" content="light dark">
+<title>Ingresar</title>
+<link rel="icon" href="img/icono.svg" type="image/svg+xml">
+<link rel="stylesheet" href="css/estilos.css">
+</head>
+<body class="pagina-login">
+<main class="login">
+  <header class="marca">
+    <img data-logo class="logo" alt="" hidden>
+    <h1 data-nombre-gym>Gestor Gym</h1>
+  </header>
+
+  <p id="aviso-config" class="aviso" role="alert" hidden></p>
+
+  <section data-panel="login" class="tarjeta" aria-labelledby="t-login">
+    <h2 id="t-login">Ingresar</h2>
+    <form id="form-login" novalidate>
+      <label for="email">Email</label>
+      <input id="email" type="email" autocomplete="username" inputmode="email" autocapitalize="none" spellcheck="false" required>
+      <label for="clave">Contraseña</label>
+      <input id="clave" type="password" autocomplete="current-password" required>
+      <button type="submit" class="boton">Ingresar</button>
+    </form>
+  </section>
+
+  <section data-panel="setup" class="tarjeta" aria-labelledby="t-setup" hidden>
+    <h2 id="t-setup">Primer ingreso: crear el gimnasio</h2>
+    <p class="suave">Esto se hace una sola vez. Tu cuenta va a quedar como dueño.</p>
+    <form id="form-setup" novalidate>
+      <label for="setup-gym">Nombre del gimnasio</label>
+      <input id="setup-gym" type="text" maxlength="80" autocomplete="organization" required>
+      <label for="setup-nombre">Tu nombre</label>
+      <input id="setup-nombre" type="text" maxlength="80" autocomplete="name" required>
+      <button type="submit" class="boton">Crear gimnasio</button>
+    </form>
+    <button type="button" class="enlace" data-salir>Usar otra cuenta</button>
+  </section>
+
+  <section data-panel="canje" class="tarjeta" aria-labelledby="t-canje" hidden>
+    <h2 id="t-canje">Unirte con un código</h2>
+    <p class="suave">Pedile al dueño el código de invitación (10 caracteres).</p>
+    <form id="form-canje" novalidate>
+      <label for="canje-codigo">Código de invitación</label>
+      <input id="canje-codigo" type="text" maxlength="14" autocomplete="off" autocapitalize="characters" spellcheck="false" required>
+      <label for="canje-nombre">Tu nombre</label>
+      <input id="canje-nombre" type="text" maxlength="80" autocomplete="name" required>
+      <button type="submit" class="boton">Unirme</button>
+    </form>
+    <button type="button" class="enlace" data-salir>Usar otra cuenta</button>
+  </section>
+
+  <section data-panel="bloqueado" class="tarjeta" aria-labelledby="t-bloq" hidden>
+    <h2 id="t-bloq">Usuario desactivado</h2>
+    <p>Tu usuario está desactivado. Hablá con el dueño del gimnasio para que lo reactive.</p>
+    <button type="button" class="boton" data-salir>Salir</button>
+  </section>
+
+  <p id="mensaje" class="aviso" role="alert" hidden></p>
+</main>
+<script src="js/vendor/supabase.js"></script>
+<script type="module" src="js/login.js"></script>
+</body>
+</html>
