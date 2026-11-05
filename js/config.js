@@ -6,8 +6,8 @@
 // El resto es la marca del gimnasio. Si cambia el logo, poné el archivo
 // en la carpeta img/ y escribí su nombre en "logo".
 export const CONFIG = {
-  supabase_url: 'https://TU-PROYECTO.supabase.co',
-  supabase_anon_key: 'PEGAR-ACA-LA-CLAVE-ANON',
+  supabase_url: 'https://phwfzkeaxvpgbctiqzpt.supabase.co',
+  supabase_anon_key: 'sb_publishable_5QAqs46qE9jaqWeX4QLtYw_0UaHhoHC',
 
   nombre: 'Gestor Gym',          // se usa hasta que el negocio tenga nombre cargado
   logo: '',                      // por ejemplo 'img/logo.png' (vacío = sin logo)
