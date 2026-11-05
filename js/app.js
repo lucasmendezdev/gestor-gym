@@ -17,6 +17,7 @@ const SECCIONES = [
 const $ = (id) => document.getElementById(id);
 let ctx = null;
 let visibles = [];
+let limpiar = null;
 
 function irAlLogin() { location.replace('index.html'); }
 
@@ -74,11 +75,13 @@ function pintar() {
   if (b) b.classList.toggle('activo', enMas);
   $('titulo-seccion').textContent = s.titulo;
   alternarMas(false);
+  if (typeof limpiar === 'function') { try { limpiar(); } catch (_) { /* nada */ } }
+  limpiar = null;
   const vista = VISTAS[s.id];
-  try { vista($('contenido'), ctx); } catch (e) {
+  try { limpiar = vista($('contenido'), ctx); } catch (e) {
     $('contenido').replaceChildren(crear('div', { class: 'tarjeta' }, crear('p', { class: 'error-texto' }, traducirError(e))));
   }
-  $('contenido').focus({ preventScroll: true });
+  if (!$('contenido').contains(document.activeElement)) $('contenido').focus({ preventScroll: true });
   window.scrollTo(0, 0);
 }
 
@@ -107,8 +110,9 @@ async function arrancar() {
 
   let nombreGym = CONFIG.nombre;
   try {
-    const { data } = await cliente().from('negocio').select('nombre').limit(1).maybeSingle();
+    const { data } = await cliente().from('negocio').select('nombre, zona_horaria').limit(1).maybeSingle();
     if (data && data.nombre) nombreGym = data.nombre;
+    if (data && data.zona_horaria) ctx.zona = data.zona_horaria;
   } catch (_) { /* usa el nombre de config.js */ }
   ctx.negocio = nombreGym;
   aplicarMarca(nombreGym);
