@@ -1,6 +1,6 @@
-import { CONFIG } from './config.js';
-import { configurado, cliente, obtenerPerfil, traducirError, aplicarMarca, crear, icono, enLinea } from './comun.js';
-import { VISTAS } from './vistas.js';
+import { CONFIG } from './config.js?v=3';
+import { configurado, cliente, obtenerPerfil, traducirError, aplicarMarca, crear, icono, enLinea } from './comun.js?v=3';
+import { VISTAS } from './vistas.js?v=3';
 
 // Orden del menú. "principal" = va en la barra inferior del teléfono.
 const SECCIONES = [
@@ -99,4 +99,45 @@ async function verificarVigencia() {
 }
 
 async function arrancar() {
-  if (!configurado())
+  if (!configurado()) return irAlLogin();
+  let r;
+  try { cliente(); r = await obtenerPerfil(); } catch (e) {
+    // Mostramos el error en pantalla (si no, la página queda en blanco).
+    document.body.classList.remove('cargando');
+    $('contenido').replaceChildren(crear('div', { class: 'tarjeta' }, crear('p', { class: 'error-texto' }, traducirError(e))));
+    return;
+  }
+  if (!r.sesion || !r.perfil || !r.perfil.activo) return irAlLogin();
+  ctx = { perfil: r.perfil, sesion: r.sesion };
+
+  let nombreGym = CONFIG.nombre;
+  try {
+    const { data } = await cliente().from('negocio').select('nombre, zona_horaria').limit(1).maybeSingle();
+    if (data && data.nombre) nombreGym = data.nombre;
+    if (data && data.zona_horaria) ctx.zona = data.zona_horaria;
+  } catch (_) { /* usa el nombre de config.js */ }
+  ctx.negocio = nombreGym;
+  aplicarMarca(nombreGym);
+
+  visibles = SECCIONES.filter((s) => !s.soloDueno || r.perfil.rol === 'dueno');
+  $('usuario-nombre').textContent = r.perfil.nombre;
+  $('usuario-rol').textContent = r.perfil.rol === 'dueno' ? 'Dueño' : 'Recepción';
+  armarMenu();
+
+  document.querySelectorAll('[data-salir]').forEach((b) => b.addEventListener('click', salir));
+  window.addEventListener('hashchange', pintar);
+  window.addEventListener('online', () => { avisoConexion(); verificarVigencia(); });
+  window.addEventListener('offline', avisoConexion);
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) verificarVigencia(); });
+  document.addEventListener('keydown', (ev) => { if (ev.key === 'Escape') alternarMas(false); });
+  document.addEventListener('click', (ev) => {
+    if (!$('panel-mas').hidden && !ev.target.closest('#panel-mas, #boton-mas')) alternarMas(false);
+  });
+  cliente().auth.onAuthStateChange((evento) => { if (evento === 'SIGNED_OUT') irAlLogin(); });
+
+  avisoConexion();
+  document.body.classList.remove('cargando');
+  pintar();
+}
+
+arrancar();

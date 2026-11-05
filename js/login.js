@@ -1,5 +1,5 @@
-import { CONFIG } from './config.js';
-import { configurado, cliente, obtenerPerfil, rpc, traducirError, aplicarMarca } from './comun.js';
+import { CONFIG } from './config.js?v=3';
+import { configurado, cliente, obtenerPerfil, rpc, traducirError, aplicarMarca } from './comun.js?v=3';
 
 const $ = (id) => document.getElementById(id);
 aplicarMarca();

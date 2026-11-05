@@ -1,7 +1,9 @@
 // comun.js · conexión con Supabase y utilidades compartidas.
 // Regla de oro: lo que viene de la base se muestra SIEMPRE con textContent,
 // nunca con innerHTML.
-import { CONFIG } from './config.js';
+import { CONFIG } from './config.js?v=3';
+
+export const VERSION = 'Etapa 2 · v3';
 
 export function configurado() {
   const u = CONFIG.supabase_url || '';
@@ -62,6 +64,7 @@ export function aplicarMarca(nombre) {
     raiz.style.setProperty('--acento', CONFIG.color_acento);
   }
   const n = nombre || CONFIG.nombre;
+  document.querySelectorAll('[data-version]').forEach((el) => { el.textContent = VERSION; });
   document.querySelectorAll('[data-nombre-gym]').forEach((el) => { el.textContent = n; });
   document.title = n;
   const logo = document.querySelector('[data-logo]');

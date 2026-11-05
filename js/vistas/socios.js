@@ -1,6 +1,6 @@
 // Sección Socios (Etapa 2): búsqueda de solo lectura.
-import { crear, rpc, traducirError, enLinea } from '../comun.js';
-import { estadoSocio, fecha, hoyEn } from '../formato.js';
+import { crear, rpc, traducirError, enLinea } from '../comun.js?v=3';
+import { estadoSocio, fecha, hoyEn } from '../formato.js?v=3';
 
 const ESPERA_MS = 350;
 
