@@ -1,6 +1,6 @@
-import { CONFIG } from './config.js?v=3';
-import { configurado, cliente, obtenerPerfil, traducirError, aplicarMarca, crear, icono, enLinea } from './comun.js?v=3';
-import { VISTAS } from './vistas.js?v=3';
+import { CONFIG } from './config.js?v=4';
+import { configurado, cliente, obtenerPerfil, traducirError, aplicarMarca, crear, icono, enLinea } from './comun.js?v=4';
+import { VISTAS } from './vistas.js?v=4';
 
 // Orden del menú. "principal" = va en la barra inferior del teléfono.
 const SECCIONES = [
@@ -27,9 +27,9 @@ async function salir() {
 }
 
 function seccionActual() {
-  const id = (location.hash || '').replace(/^#\/?/, '');
-  const s = visibles.find((x) => x.id === id);
-  return s || visibles[0];
+  const partes = (location.hash || '').replace(/^#\/?/, '').split('/').filter(Boolean);
+  const s = visibles.find((x) => x.id === partes[0]);
+  return s ? { s, params: partes.slice(1) } : { s: visibles[0], params: [], corregir: true };
 }
 
 function enlace(s, clase) {
@@ -65,8 +65,8 @@ function alternarMas(forzar) {
 }
 
 function pintar() {
-  const s = seccionActual();
-  if (location.hash !== '#/' + s.id) { history.replaceState(null, '', '#/' + s.id); }
+  const { s, params, corregir } = seccionActual();
+  if (corregir) { history.replaceState(null, '', '#/' + s.id); }
   document.querySelectorAll('[data-seccion]').forEach((a) => {
     if (a.dataset.seccion === s.id) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
   });
@@ -78,7 +78,7 @@ function pintar() {
   if (typeof limpiar === 'function') { try { limpiar(); } catch (_) { /* nada */ } }
   limpiar = null;
   const vista = VISTAS[s.id];
-  try { limpiar = vista($('contenido'), ctx); } catch (e) {
+  try { limpiar = vista($('contenido'), ctx, params); } catch (e) {
     $('contenido').replaceChildren(crear('div', { class: 'tarjeta' }, crear('p', { class: 'error-texto' }, traducirError(e))));
   }
   if (!$('contenido').contains(document.activeElement)) $('contenido').focus({ preventScroll: true });

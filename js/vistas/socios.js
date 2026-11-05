@@ -1,46 +1,24 @@
-// Sección Socios (Etapa 2): búsqueda de solo lectura.
-import { crear, rpc, traducirError, enLinea } from '../comun.js?v=3';
-import { estadoSocio, fecha, hoyEn } from '../formato.js?v=3';
+// Sección Socios: búsqueda, alta y ficha.
+import { crear, rpc, traducirError, enLinea } from '../comun.js?v=4';
+import { estadoSocio, hoyEn } from '../formato.js?v=4';
+import { esUuid } from '../ui.js?v=4';
+import { vistaSocioNuevo } from './socio_nuevo.js?v=4';
+import { vistaFicha } from './ficha.js?v=4';
 
 const ESPERA_MS = 350;
 
-function fila(etiqueta, valor) {
-  return [crear('dt', {}, etiqueta), crear('dd', {}, valor)];
-}
-
-function detalle(s, est) {
-  const filas = [
-    ...fila('N.º de socio', String(s.numero)),
-    ...fila('DNI', s.dni || '—'),
-    ...fila('Teléfono', s.telefono || '—'),
-  ];
-  if (s.plan) filas.push(...fila('Plan', s.plan + (s.dias_por_semana ? ' (' + s.dias_por_semana + ' días por semana)' : '')));
-  if (s.fecha_inicio) filas.push(...fila('Inicio de la membresía', fecha(s.fecha_inicio)));
-  if (s.vence_el) filas.push(...fila('Vence el', fecha(s.vence_el)));
-  if (s.estado === 'congelada') filas.push(...fila('Congelado hasta', fecha(s.congelada_hasta)));
-  filas.push(...fila('En el gimnasio ahora', s.dentro ? 'Sí' : 'No'));
-  return crear('dl', { class: 'detalle-socio' }, filas);
-}
-
-function resultado(s, hoy, n) {
+function resultado(s, hoy) {
   const est = estadoSocio(s, hoy);
-  const idPanel = 'det-' + n;
-  const panel = crear('div', { class: 'panel-detalle', id: idPanel, hidden: true }, detalle(s, est));
-  const cab = crear('button', { type: 'button', class: 'socio-cab', 'aria-expanded': 'false', 'aria-controls': idPanel },
-    crear('span', { class: 'socio-nombre' }, s.apellido + ', ' + s.nombre,
-      s.dentro ? crear('span', { class: 'etiqueta adentro' }, 'Adentro') : null),
-    crear('span', { class: 'socio-sub' }, 'N.º ' + s.numero + (s.plan ? ' · ' + s.plan : '')),
-    crear('span', { class: 'pastilla ' + est.clase }, est.texto),
-    crear('span', { class: 'socio-detalle-corto' }, est.detalle));
-  cab.addEventListener('click', () => {
-    const abrir = panel.hidden;
-    panel.hidden = !abrir;
-    cab.setAttribute('aria-expanded', String(abrir));
-  });
-  return crear('li', { class: 'socio-item', 'data-socio': s.socio_id }, cab, panel);
+  return crear('li', { class: 'socio-item', 'data-socio': s.socio_id },
+    crear('a', { class: 'socio-cab', href: '#/socios/' + s.socio_id },
+      crear('span', { class: 'socio-nombre' }, s.apellido + ', ' + s.nombre,
+        s.dentro ? crear('span', { class: 'etiqueta adentro' }, 'Adentro') : null),
+      crear('span', { class: 'socio-sub' }, 'N.º ' + s.numero + (s.plan ? ' · ' + s.plan : '') + ' · DNI ' + s.dni),
+      crear('span', { class: 'pastilla ' + est.clase }, est.texto),
+      crear('span', { class: 'socio-detalle-corto' }, est.detalle)));
 }
 
-export function vistaSocios(contenedor, ctx) {
+function busqueda(contenedor, ctx) {
   let activa = true;
   let pedido = 0;
   let temporizador = null;
@@ -51,18 +29,22 @@ export function vistaSocios(contenedor, ctx) {
   const ayuda = crear('p', { class: 'suave', id: 'ayuda-buscar' }, 'Escribí un número de socio, un DNI o al menos 2 letras del apellido o nombre.');
   const estado = crear('div', { class: 'estado-busqueda', 'aria-live': 'polite' });
   const lista = crear('ul', { class: 'lista-socios' });
+  const nuevo = crear('a', { href: '#/socios/nuevo', class: 'boton chico enlace-boton', id: 'btn-nuevo-socio' }, 'Nuevo socio');
 
   contenedor.replaceChildren(
+    crear('div', { class: 'cabecera-vista' }, crear('h2', {}, 'Socios'), nuevo),
     crear('div', { class: 'tarjeta' }, crear('label', { for: 'buscar' }, 'Buscar socio'), entrada, ayuda),
     estado, lista);
 
-  function mensaje(texto, error) {
-    estado.replaceChildren(texto ? crear('p', { class: error ? 'error-texto' : 'suave' }, texto) : '');
+  function mensaje(texto, error, conAlta) {
+    estado.replaceChildren(texto ? crear('p', { class: error ? 'error-texto' : 'suave' }, texto) : '',
+      conAlta ? crear('a', { href: '#/socios/nuevo', class: 'enlace-simple', id: 'alta-desde-vacio' }, 'Dar de alta a un socio nuevo') : '');
   }
 
   async function buscar() {
     const t = entrada.value.trim();
     const mio = ++pedido;
+    ctx.busqueda = t;
     if (!t) { lista.replaceChildren(); mensaje(''); return; }
     if (t.length < 2 && !/^[0-9]+$/.test(t)) { lista.replaceChildren(); mensaje('Escribí al menos 2 letras, o un número de socio o DNI.'); return; }
     if (!enLinea()) { mensaje('Sin conexión a internet. No se puede buscar hasta que vuelva.', true); return; }
@@ -70,8 +52,8 @@ export function vistaSocios(contenedor, ctx) {
     try {
       const r = await rpc('buscar_socio', { p_texto: t });
       if (!activa || mio !== pedido) return;
-      lista.replaceChildren(...r.socios.map((s, i) => resultado(s, hoy, i)));
-      if (!r.socios.length) mensaje('No se encontró ningún socio con «' + t + '».');
+      lista.replaceChildren(...r.socios.map((s) => resultado(s, hoy)));
+      if (!r.socios.length) mensaje('No se encontró ningún socio con «' + t + '».', false, true);
       else if (r.hay_mas) mensaje('Hay más de 10 coincidencias: mostramos las primeras 10. Escribí más datos para afinar.');
       else mensaje(r.socios.length === 1 ? '1 socio encontrado.' : r.socios.length + ' socios encontrados.');
     } catch (e) {
@@ -83,6 +65,14 @@ export function vistaSocios(contenedor, ctx) {
 
   entrada.addEventListener('input', () => { clearTimeout(temporizador); temporizador = setTimeout(buscar, ESPERA_MS); });
   entrada.addEventListener('keydown', (ev) => { if (ev.key === 'Enter') { ev.preventDefault(); clearTimeout(temporizador); buscar(); } });
+  if (ctx.busqueda) { entrada.value = ctx.busqueda; buscar(); }
   entrada.focus({ preventScroll: true });
   return () => { activa = false; clearTimeout(temporizador); };
+}
+
+export function vistaSocios(contenedor, ctx, params) {
+  const p = (params && params[0]) || '';
+  if (p === 'nuevo') return vistaSocioNuevo(contenedor, ctx);
+  if (esUuid(p)) return vistaFicha(contenedor, ctx, p);
+  return busqueda(contenedor, ctx);
 }

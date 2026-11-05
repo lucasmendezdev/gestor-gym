@@ -46,6 +46,9 @@ export function estadoSocio(s, hoy) {
       return { texto: 'Al día', detalle: 'Vence el ' + fecha(s.vence_el) + cuando, clase: 'ok' };
     }
     case 'vencida':
+      if (s.tiene_cobros === false) {
+        return { texto: 'Pendiente de primer cobro', detalle: 'Todavía no se le cobró la primera cuota', clase: 'atencion' };
+      }
       return { texto: 'Vencido hace ' + plural(s.dias_atraso, 'día', 'días'), detalle: 'Venció el ' + fecha(s.vence_el), clase: 'mal' };
     case 'congelada':
       return { texto: 'Congelado', detalle: 'Congelado hasta el ' + fecha(s.congelada_hasta), clase: 'frio' };
