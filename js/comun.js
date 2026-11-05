@@ -3,6 +3,8 @@
 // nunca con innerHTML.
 import { CONFIG } from './config.js';
 
+export const VERSION = 'Etapa 2 · v2';
+
 export function configurado() {
   const u = CONFIG.supabase_url || '';
   const k = CONFIG.supabase_anon_key || '';
@@ -62,6 +64,7 @@ export function aplicarMarca(nombre) {
     raiz.style.setProperty('--acento', CONFIG.color_acento);
   }
   const n = nombre || CONFIG.nombre;
+  document.querySelectorAll('[data-version]').forEach((el) => { el.textContent = VERSION; });
   document.querySelectorAll('[data-nombre-gym]').forEach((el) => { el.textContent = n; });
   document.title = n;
   const logo = document.querySelector('[data-logo]');
