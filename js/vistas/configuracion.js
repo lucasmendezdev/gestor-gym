@@ -1,6 +1,6 @@
 // Configuración (solo dueño). Etapa 3A: solo Planes; el resto llega en la Etapa 8.
-import { crear } from '../comun.js?v=4';
-import { vistaPlanes } from './planes.js?v=4';
+import { crear } from '../comun.js?v=5';
+import { vistaPlanes } from './planes.js?v=5';
 
 export function vistaConfiguracion(contenedor, ctx, params) {
   if (params[0] === 'planes') return vistaPlanes(contenedor, ctx);

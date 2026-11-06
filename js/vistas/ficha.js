@@ -1,7 +1,8 @@
 // Ficha de un socio: datos, estado, edición, baja y reactivación.
-import { crear, cliente, rpc, traducirError } from '../comun.js?v=4';
-import { estadoSocio, fecha, hoyEn } from '../formato.js?v=4';
-import { campo, aviso, enviar } from '../ui.js?v=4';
+import { crear, cliente, rpc, traducirError } from '../comun.js?v=5';
+import { estadoSocio, fecha, hoyEn } from '../formato.js?v=5';
+import { campo, aviso, enviar } from '../ui.js?v=5';
+import { bloqueMembresia, cargarExtra } from './ficha_membresia.js?v=5';
 
 export function vistaFicha(contenedor, ctx, id) {
   let activa = true;
@@ -28,7 +29,10 @@ export function vistaFicha(contenedor, ctx, id) {
         if (est.estado === 'baja') { pintarBajaReducida(est); return; }
         zona.replaceChildren(aviso('No se encontró el socio.')); return;
       }
-      pintar(s, est);
+      let extra = null;
+      if (esDueno && !s.baja_en && est.estado !== 'sin_membresia' && est.membresia_id) extra = await cargarExtra(est.membresia_id);
+      if (!activa) return;
+      pintar(s, est, extra);
     } catch (e) { if (activa) zona.replaceChildren(aviso(traducirError(e))); }
   }
 
@@ -43,7 +47,7 @@ export function vistaFicha(contenedor, ctx, id) {
 
   function fila(et, valor) { return [crear('dt', {}, et), crear('dd', {}, valor)]; }
 
-  function pintar(s, est) {
+  function pintar(s, est, extra) {
     const hoy = hoyEn(ctx.zona);
     const e = estadoSocio(est, hoy);
     const baja = !!s.baja_en;
@@ -57,16 +61,7 @@ export function vistaFicha(contenedor, ctx, id) {
       ...fila('Datos personales', s.datos_informados_en ? 'Informado el ' + fecha(s.datos_informados_en) : 'Todavía no se le informó'));
 
     const mem = crear('dl', { class: 'detalle-socio' });
-    if (baja) {
-      mem.append(...fila('Estado', 'De baja desde el ' + fecha(s.baja_en)), ...fila('Motivo', s.baja_motivo || '—'));
-    } else if (est.estado === 'sin_membresia') {
-      mem.append(...fila('Membresía', 'No tiene una membresía activa'));
-    } else {
-      mem.append(...fila('Plan', est.plan + (est.dias_por_semana ? ' (' + est.dias_por_semana + ' días por semana)' : ' (sin tope semanal)')),
-        ...fila('Inicio', fecha(est.fecha_inicio)),
-        ...fila('Vence el', est.tiene_cobros === false ? 'Sin cobros todavía' : fecha(est.vence_el)));
-      if (est.estado === 'congelada') mem.append(...fila('Congelado hasta', fecha(est.congelada_hasta)));
-    }
+    if (baja) mem.append(...fila('Estado', 'De baja desde el ' + fecha(s.baja_en)), ...fila('Motivo', s.baja_motivo || '—'));
 
     function abrirPanel(titulo, contenido) { panel.replaceChildren(crear('h3', {}, titulo), contenido); panel.scrollIntoView({ block: 'nearest' }); }
     function cerrarPanel() { panel.replaceChildren(); }
@@ -108,6 +103,12 @@ export function vistaFicha(contenedor, ctx, id) {
       return f;
     }
 
+    let tarjetaMem = crear('div', { class: 'tarjeta' }, crear('h3', {}, 'Membresía'), mem);
+    if (!baja) {
+      const b = bloqueMembresia({ ctx, id, est, extra, esDueno, abrirPanel, cerrarPanel, formConfirmar, recargar: cargar });
+      tarjetaMem = b.tarjeta;
+      acciones.append(...b.botones);
+    }
     acciones.append(crear('button', { type: 'button', class: 'boton secundario chico', id: 'btn-editar', onclick: () => abrirPanel('Editar datos', formEditar()) }, 'Editar datos'));
     if (esDueno && !baja) {
       acciones.append(crear('button', { type: 'button', class: 'boton secundario chico peligro', id: 'btn-baja', onclick: () => abrirPanel('Dar de baja',
@@ -136,7 +137,7 @@ export function vistaFicha(contenedor, ctx, id) {
         crear('span', { class: 'pastilla ' + (baja ? 'neutro' : e.clase) }, baja ? 'De baja' : e.texto)),
       baja ? null : crear('p', { class: 'suave', id: 'ficha-detalle' }, e.detalle),
       crear('div', { class: 'tarjeta' }, crear('h3', {}, 'Datos'), datos),
-      crear('div', { class: 'tarjeta' }, crear('h3', {}, 'Membresía'), mem),
+      tarjetaMem,
       acciones, panel);
   }
 
