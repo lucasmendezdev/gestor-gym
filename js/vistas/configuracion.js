@@ -1,7 +1,7 @@
 // Configuración (solo dueño). Hasta ahora: Planes, Medios de pago y Categorías de gasto.
-import { crear } from '../comun.js?v=7';
-import { vistaPlanes } from './planes.js?v=7';
-import { vistaListaSimple, CFG_MEDIOS, CFG_CATEGORIAS } from './lista_simple.js?v=7';
+import { crear } from '../comun.js?v=8';
+import { vistaPlanes } from './planes.js?v=8';
+import { vistaListaSimple, CFG_MEDIOS, CFG_CATEGORIAS } from './lista_simple.js?v=8';
 
 export function vistaConfiguracion(contenedor, ctx, params) {
   if (params[0] === 'planes') return vistaPlanes(contenedor, ctx);

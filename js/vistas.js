@@ -1,11 +1,12 @@
 // vistas.js · qué se muestra en cada sección.
 // Cada etapa reemplaza una "vistaPendiente" por la pantalla real.
-import { crear } from './comun.js?v=7';
-import { vistaInicio } from './vistas/inicio.js?v=7';
-import { vistaSocios } from './vistas/socios.js?v=7';
-import { vistaCobrar } from './vistas/cobrar.js?v=7';
-import { vistaCaja } from './vistas/caja.js?v=7';
-import { vistaConfiguracion } from './vistas/configuracion.js?v=7';
+import { crear } from './comun.js?v=8';
+import { vistaInicio } from './vistas/inicio.js?v=8';
+import { vistaSocios } from './vistas/socios.js?v=8';
+import { vistaAsistencia } from './vistas/asistencia.js?v=8';
+import { vistaCobrar } from './vistas/cobrar.js?v=8';
+import { vistaCaja } from './vistas/caja.js?v=8';
+import { vistaConfiguracion } from './vistas/configuracion.js?v=8';
 
 export function vistaPendiente(etapa, descripcion) {
   return (contenedor) => {
@@ -21,7 +22,7 @@ export const VISTAS = {
   inicio: vistaInicio,
   socios: vistaSocios,
   cobrar: vistaCobrar,
-  asistencia: vistaPendiente(7, 'Registro de entradas y salidas, y quién está adentro.'),
+  asistencia: vistaAsistencia,
   caja: vistaCaja,
   avisos: vistaPendiente(8, 'Avisos por WhatsApp de vencimiento y mora.'),
   reportes: vistaPendiente(9, 'Ingresos, gastos, morosidad, asistencia, socios y cajas.'),

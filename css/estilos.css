@@ -237,3 +237,12 @@ a.socio-cab { text-decoration: none; }
 }
 #detalle-cobro { grid-template-columns: 1fr auto; }
 #detalle-cobro dd { text-align: right; white-space: nowrap; }
+
+/* ---------- Asistencia (Etapa 7) ---------- */
+.aviso-caja.atencion { background: #fdebc8; color: #7a4b00; }
+@media (prefers-color-scheme: dark) { .aviso-caja.atencion { background: #4a3710; color: #ffe0a3; } }
+.aviso-caja p { margin: 0 0 .5rem; }
+.resultado-asistencia .acciones-socio { padding: 0 1rem .8rem; }
+.etiquetas { display: flex; gap: .4rem; flex-wrap: wrap; justify-content: flex-end; }
+.etiquetas .pastilla { grid-column: auto; grid-row: auto; }
+#zona-adentro { margin-top: 1.25rem; }

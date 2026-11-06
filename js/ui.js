@@ -1,5 +1,5 @@
 // ui.js · piezas de formulario compartidas.
-import { crear, traducirError, enLinea } from './comun.js?v=7';
+import { crear, traducirError, enLinea } from './comun.js?v=8';
 
 export function campo(etiqueta, entrada, ayuda) {
   const id = entrada.id;
