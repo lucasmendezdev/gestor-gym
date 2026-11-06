@@ -1,8 +1,9 @@
 // Ficha de un socio: datos, estado, edición, baja y reactivación.
-import { crear, cliente, rpc, traducirError } from '../comun.js?v=8';
-import { estadoSocio, fecha, hoyEn } from '../formato.js?v=8';
-import { campo, aviso, enviar } from '../ui.js?v=8';
-import { bloqueMembresia, cargarExtra } from './ficha_membresia.js?v=8';
+import { crear, cliente, rpc, traducirError } from '../comun.js?v=9';
+import { estadoSocio, fecha, hoyEn } from '../formato.js?v=9';
+import { campo, aviso, enviar } from '../ui.js?v=9';
+import { formAviso } from './avisos.js?v=9';
+import { bloqueMembresia, cargarExtra } from './ficha_membresia.js?v=9';
 
 export function vistaFicha(contenedor, ctx, id) {
   let activa = true;
@@ -108,6 +109,13 @@ export function vistaFicha(contenedor, ctx, id) {
       const b = bloqueMembresia({ ctx, id, est, extra, esDueno, abrirPanel, cerrarPanel, formConfirmar, recargar: cargar });
       tarjetaMem = b.tarjeta;
       acciones.append(...b.botones);
+    }
+    if (!baja && est.estado !== 'sin_membresia') {
+      acciones.append(crear('button', { type: 'button', class: 'boton secundario chico', id: 'btn-bienvenida', onclick: () => {
+        const f = formAviso({ ctx, socioId: id, nombre: s.apellido + ', ' + s.nombre, tipo: 'bienvenida', cerrar: cerrarPanel,
+          alRegistrar: async () => { ctx.flash = 'Bienvenida registrada.'; await cargar(); } });
+        abrirPanel('Aviso de bienvenida', f);
+      } }, 'Enviar bienvenida'));
     }
     acciones.append(crear('button', { type: 'button', class: 'boton secundario chico', id: 'btn-editar', onclick: () => abrirPanel('Editar datos', formEditar()) }, 'Editar datos'));
     if (esDueno && !baja) {

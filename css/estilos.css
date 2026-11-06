@@ -246,3 +246,13 @@ a.socio-cab { text-decoration: none; }
 .etiquetas { display: flex; gap: .4rem; flex-wrap: wrap; justify-content: flex-end; }
 .etiquetas .pastilla { grid-column: auto; grid-row: auto; }
 #zona-adentro { margin-top: 1.25rem; }
+
+/* Etapa 8 · avisos */
+a.dato.enlace-dato { display: block; color: inherit; text-decoration: none; }
+a.dato.enlace-dato:hover, a.dato.enlace-dato:focus-visible { border-color: var(--acento); }
+.pestanas { display: flex; gap: .5rem; margin: .5rem 0 .75rem; }
+.pestana { flex: 1 1 0; text-align: center; padding: .65rem .5rem; border: 1px solid var(--borde); border-radius: 10px; background: var(--superficie); color: var(--texto); text-decoration: none; font-weight: 600; min-height: 44px; }
+.pestana.activa { background: var(--acento); border-color: var(--acento); color: #fff; }
+.fila-interruptor { display: flex; align-items: center; gap: .5rem; margin: .25rem 0 .75rem; min-height: 44px; }
+.fila-interruptor input { width: 22px; height: 22px; flex: none; }
+#aviso-mensaje { background: var(--fondo); }

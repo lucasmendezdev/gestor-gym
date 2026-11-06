@@ -1,6 +1,6 @@
-import { CONFIG } from './config.js?v=8';
-import { configurado, cliente, obtenerPerfil, traducirError, aplicarMarca, crear, icono, enLinea } from './comun.js?v=8';
-import { VISTAS } from './vistas.js?v=8';
+import { CONFIG } from './config.js?v=9';
+import { configurado, cliente, obtenerPerfil, traducirError, aplicarMarca, crear, icono, enLinea } from './comun.js?v=9';
+import { VISTAS } from './vistas.js?v=9';
 
 // Orden del menú. "principal" = va en la barra inferior del teléfono.
 const SECCIONES = [
@@ -112,9 +112,11 @@ async function arrancar() {
 
   let nombreGym = CONFIG.nombre;
   try {
-    const { data } = await cliente().from('negocio').select('nombre, zona_horaria').limit(1).maybeSingle();
+    const { data } = await cliente().from('negocio').select('nombre, zona_horaria, prefijo_whatsapp, aviso_vencimiento_dias').limit(1).maybeSingle();
     if (data && data.nombre) nombreGym = data.nombre;
     if (data && data.zona_horaria) ctx.zona = data.zona_horaria;
+    if (data && data.prefijo_whatsapp) ctx.prefijo = data.prefijo_whatsapp;
+    if (data && data.aviso_vencimiento_dias != null) ctx.diasAviso = data.aviso_vencimiento_dias;
   } catch (_) { /* usa el nombre de config.js */ }
   ctx.negocio = nombreGym;
   aplicarMarca(nombreGym);

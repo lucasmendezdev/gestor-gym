@@ -1,9 +1,9 @@
 // Pantalla de inicio: resumen del día. Recepción ve contadores; el dueño, además, el dinero.
-import { crear, rpc, traducirError, enLinea } from '../comun.js?v=8';
-import { moneda, fechaLarga, plural } from '../formato.js?v=8';
+import { crear, rpc, traducirError, enLinea } from '../comun.js?v=9';
+import { moneda, fechaLarga, plural } from '../formato.js?v=9';
 
-function tarjeta(titulo, valor, nota, clase) {
-  return crear('div', { class: 'dato ' + (clase || '') },
+function tarjeta(titulo, valor, nota, clase, href) {
+  return crear(href ? 'a' : 'div', { class: 'dato ' + (clase || '') + (href ? ' enlace-dato' : ''), href: href || null },
     crear('div', { class: 'dato-titulo' }, titulo),
     crear('div', { class: 'dato-valor' }, valor),
     nota ? crear('div', { class: 'dato-nota' }, nota) : null);
@@ -26,10 +26,10 @@ function pintarResumen(cont, r, ctx) {
       tarjeta('Caja', caja.v, caja.n, caja.clase),
       tarjeta('Vencen pronto', String(r.vencen_pronto),
         'En los próximos ' + plural(r.dias_aviso_vencimiento, 'día', 'días') + (r.vencen_pronto ? ' · ' + r.vencen_pronto_sin_avisar + ' sin avisar' : ''),
-        r.vencen_pronto ? 'atencion' : ''),
+        r.vencen_pronto ? 'atencion' : '', '#/avisos'),
       tarjeta('En mora', String(r.en_mora),
         r.en_mora ? r.en_mora_sin_avisar + ' sin avisar' : 'Nadie vencido',
-        r.en_mora ? 'alerta' : '')),
+        r.en_mora ? 'alerta' : '', '#/avisos/mora')),
   ];
   if (r.dinero) {
     const d = r.dinero;

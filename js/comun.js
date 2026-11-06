@@ -1,9 +1,9 @@
 // comun.js · conexión con Supabase y utilidades compartidas.
 // Regla de oro: lo que viene de la base se muestra SIEMPRE con textContent,
 // nunca con innerHTML.
-import { CONFIG } from './config.js?v=8';
+import { CONFIG } from './config.js?v=9';
 
-export const VERSION = 'Etapa 7 · v8';
+export const VERSION = 'Etapa 8 · v9';
 
 export function configurado() {
   const u = CONFIG.supabase_url || '';
