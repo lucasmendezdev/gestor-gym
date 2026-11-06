@@ -223,3 +223,17 @@ a.socio-cab { text-decoration: none; }
 .importe.sale { color: #8a1c14; }
 @media (prefers-color-scheme: dark) { .importe.entra { color: #8fe0b3; } .importe.sale { color: #ffb4ab; } }
 .nota-cobro { grid-column: 1 / -1; font-size: .85rem; }
+
+/* ---------- Cobro y recibo (Etapa 6) ---------- */
+#detalle-cobro { margin: .75rem 0; }
+#d-total, #detalle-cobro dt:last-of-type { font-size: 1.15rem; }
+.enlace-boton { display: inline-flex; align-items: center; justify-content: center; text-decoration: none; }
+.tarjeta.recibo h2 { margin: 0 0 .25rem; }
+@media print {
+  .lateral, .inferior, .barra, .panel-mas, .no-imprimir, .sin-conexion, #sin-conexion { display: none !important; }
+  body { background: #fff; color: #000; }
+  .contenido { padding: 0 !important; }
+  .tarjeta { box-shadow: none; border: 1px solid #000; }
+}
+#detalle-cobro { grid-template-columns: 1fr auto; }
+#detalle-cobro dd { text-align: right; white-space: nowrap; }

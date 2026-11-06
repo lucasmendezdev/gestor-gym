@@ -1,8 +1,8 @@
 // Caja: abrir, cerrar, ingresos, gastos, retiros y anulaciones (Etapa 5).
-import { crear, cliente, rpc, traducirError } from '../comun.js?v=6';
-import { moneda, fechaHora, hoyEn } from '../formato.js?v=6';
-import { campo, aviso, enviar, flash, nuevaClave } from '../ui.js?v=6';
-import { leerMonto } from './ficha_membresia.js?v=6';
+import { crear, cliente, rpc, traducirError } from '../comun.js?v=7';
+import { moneda, fechaHora, hoyEn } from '../formato.js?v=7';
+import { campo, aviso, enviar, flash, nuevaClave } from '../ui.js?v=7';
+import { leerMonto } from './ficha_membresia.js?v=7';
 
 const TIPOS = { cobro_cuota: 'Cobro de cuota', ingreso: 'Ingreso', retiro: 'Retiro', gasto: 'Gasto', anulacion: 'Anulación' };
 

@@ -1,8 +1,8 @@
 // Membresía y congelamientos dentro de la ficha del socio (Etapa 3B).
 // Recepción: crea la membresía con un plan y ve el estado. Dueño: además edita, cierra y congela.
-import { crear, cliente, rpc } from '../comun.js?v=6';
-import { fecha, moneda, hoyEn } from '../formato.js?v=6';
-import { campo, enviar } from '../ui.js?v=6';
+import { crear, cliente, rpc } from '../comun.js?v=7';
+import { fecha, moneda, hoyEn } from '../formato.js?v=7';
+import { campo, enviar, nuevaClave } from '../ui.js?v=7';
 
 // Texto del precio: "15000,5" / "15.000,50" -> número (o null si está vacío; NaN si es inválido).
 export function leerMonto(t) {
@@ -15,7 +15,7 @@ export function leerMonto(t) {
 const num = (v) => (v == null ? null : Number(v));
 
 // Datos que solo lee el dueño (la base no deja leer estas tablas a recepción).
-export async function cargarExtra(membresiaId) {
+export async function cargarExtra(membresiaId, socioId) {
   const { data: m, error: e1 } = await cliente().from('membresias')
     .select('id, plan_id, fecha_inicio, precio_mensual, dias_por_semana, descuento_id, descuento_pct, estado')
     .eq('id', membresiaId).maybeSingle();
@@ -24,7 +24,11 @@ export async function cargarExtra(membresiaId) {
     .select('id, desde, hasta, dias, motivo, anulado_en, anulado_motivo')
     .eq('membresia_id', membresiaId).order('desde', { ascending: false });
   if (e2) throw e2;
-  return { m, cong: cong || [] };
+  const { data: cobros, error: e3 } = await cliente().from('cobros')
+    .select('id, recibo, membresia_id, desde, hasta, meses, monto_total, anulado_en, anulado_motivo, creado_en')
+    .eq('socio_id', socioId).order('recibo', { ascending: false });
+  if (e3) throw e3;
+  return { m, cong: cong || [], cobros: cobros || [] };
 }
 
 async function cargarPlanes() {
@@ -115,9 +119,33 @@ export function bloqueMembresia(h) {
       caja.append(item);
     });
     tarjeta.append(caja);
+
+    // ---- Historial de cobros (solo dueño) ----
+    const cb = crear('div', { id: 'historial-cobros' }, crear('h3', {}, 'Cobros'));
+    if (!extra.cobros.length) cb.append(crear('p', { class: 'suave' }, 'Todavía no tiene cobros.'));
+    const ultimo = extra.cobros.find((c) => !c.anulado_en && c.membresia_id === (extra.m && extra.m.id));
+    extra.cobros.forEach((c) => {
+      const item = crear('div', { class: 'cong-item', 'data-cobro': c.id },
+        crear('div', {},
+          crear('strong', {}, 'Recibo ' + String(c.recibo).padStart(6, '0') + ' · ' + moneda(c.monto_total)),
+          crear('p', { class: 'suave' }, fecha(c.desde) + ' al ' + fecha(c.hasta) + ' · ' + (c.meses === 1 ? '1 mes' : c.meses + ' meses') +
+            (c.anulado_en ? ' · Anulado: ' + (c.anulado_motivo || '') : ''))),
+        crear('span', { class: 'pastilla ' + (c.anulado_en ? 'neutro' : 'ok') }, c.anulado_en ? 'Anulado' : 'Vigente'),
+        crear('div', { class: 'fila-botones' },
+          crear('a', { href: '#/cobrar/' + id + '/recibo/' + c.id, class: 'boton secundario chico enlace-boton', 'data-recibo': c.id }, 'Ver recibo'),
+          ultimo && ultimo.id === c.id ? crear('button', { type: 'button', class: 'boton secundario chico peligro', 'data-anular-cobro': c.id, onclick: () => {
+            const claveAnular = nuevaClave();
+            h.abrirPanel('Anular cobro', h.formConfirmar({ boton: 'Anular cobro', claseBoton: 'peligro', motivo: true,
+              texto: 'Se anula el último cobro (' + moneda(c.monto_total) + '). El vencimiento vuelve atrás y la plata se devuelve en la caja. Si fue en efectivo hace falta una caja abierta.',
+              accion: (m) => rpc('anular_cobro', { p_clave: claveAnular, p_cobro_id: c.id, p_motivo: m }), mensaje: 'Cobro anulado.' }));
+          } }, 'Anular') : null));
+      cb.append(item);
+    });
+    tarjeta.append(cb);
   }
 
   // ---- Botones ----
+  if (tiene) botones.push(crear('a', { href: '#/cobrar/' + id, class: 'boton chico enlace-boton', id: 'btn-cobrar-ficha' }, 'Cobrar'));
   const puedeCrear = est.estado === 'sin_membresia' || (est.estado === 'vencida' && est.dias_atraso > 60);
   if (puedeCrear) {
     botones.push(crear('button', { type: 'button', class: 'boton chico', id: 'btn-nueva-mem',

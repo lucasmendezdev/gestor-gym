@@ -1,8 +1,8 @@
 // Ficha de un socio: datos, estado, edición, baja y reactivación.
-import { crear, cliente, rpc, traducirError } from '../comun.js?v=6';
-import { estadoSocio, fecha, hoyEn } from '../formato.js?v=6';
-import { campo, aviso, enviar } from '../ui.js?v=6';
-import { bloqueMembresia, cargarExtra } from './ficha_membresia.js?v=6';
+import { crear, cliente, rpc, traducirError } from '../comun.js?v=7';
+import { estadoSocio, fecha, hoyEn } from '../formato.js?v=7';
+import { campo, aviso, enviar } from '../ui.js?v=7';
+import { bloqueMembresia, cargarExtra } from './ficha_membresia.js?v=7';
 
 export function vistaFicha(contenedor, ctx, id) {
   let activa = true;
@@ -30,7 +30,7 @@ export function vistaFicha(contenedor, ctx, id) {
         zona.replaceChildren(aviso('No se encontró el socio.')); return;
       }
       let extra = null;
-      if (esDueno && !s.baja_en && est.estado !== 'sin_membresia' && est.membresia_id) extra = await cargarExtra(est.membresia_id);
+      if (esDueno && !s.baja_en && est.estado !== 'sin_membresia' && est.membresia_id) extra = await cargarExtra(est.membresia_id, id);
       if (!activa) return;
       pintar(s, est, extra);
     } catch (e) { if (activa) zona.replaceChildren(aviso(traducirError(e))); }
