@@ -212,3 +212,14 @@ a.socio-cab { text-decoration: none; }
 .cong-item p { margin: .15rem 0 0; }
 .cong-item .pastilla { grid-column: auto; grid-row: auto; }
 .acciones select, .formulario select { width: 100%; }
+
+/* ---------- Caja (Etapa 5) ---------- */
+.titulo-lista { margin: 1rem 0 .5rem; font-size: 1rem; }
+.plan-item.mov { grid-template-columns: 1fr auto; }
+.plan-item.mov.anulado .plan-info { opacity: .55; text-decoration: line-through; }
+.plan-item.mov .pastilla { grid-column: auto; grid-row: auto; justify-self: start; }
+.importe { font-weight: 700; white-space: nowrap; }
+.importe.entra { color: #0d5a33; }
+.importe.sale { color: #8a1c14; }
+@media (prefers-color-scheme: dark) { .importe.entra { color: #8fe0b3; } .importe.sale { color: #ffb4ab; } }
+.nota-cobro { grid-column: 1 / -1; font-size: .85rem; }

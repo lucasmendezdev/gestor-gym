@@ -60,3 +60,10 @@ export function estadoSocio(s, hoy) {
       return { texto: 'Estado desconocido', detalle: '', clase: 'neutro' };
   }
 }
+
+// Fecha y hora cortas en la zona del negocio: "05/11 14:30"
+export function fechaHora(iso, zona) {
+  try {
+    return new Date(iso).toLocaleString('es-AR', { timeZone: zona || 'America/Argentina/Mendoza', day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false }).replace(',', '');
+  } catch (_) { return '—'; }
+}

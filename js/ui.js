@@ -1,5 +1,5 @@
 // ui.js · piezas de formulario compartidas.
-import { crear, traducirError, enLinea } from './comun.js?v=5';
+import { crear, traducirError, enLinea } from './comun.js?v=6';
 
 export function campo(etiqueta, entrada, ayuda) {
   const id = entrada.id;
@@ -39,3 +39,12 @@ export function flash(ctx, contenedor) {
 }
 
 export const esUuid = (t) => /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(t || '');
+
+// Clave única por operación (la base la usa para no duplicar si se repite el pedido).
+export function nuevaClave() {
+  if (window.crypto && typeof window.crypto.randomUUID === 'function') return window.crypto.randomUUID();
+  const b = new Uint8Array(16); window.crypto.getRandomValues(b);
+  b[6] = (b[6] & 0x0f) | 0x40; b[8] = (b[8] & 0x3f) | 0x80;
+  const h = [...b].map((x) => x.toString(16).padStart(2, '0')).join('');
+  return h.slice(0, 8) + '-' + h.slice(8, 12) + '-' + h.slice(12, 16) + '-' + h.slice(16, 20) + '-' + h.slice(20);
+}
