@@ -1,12 +1,12 @@
 // Configuración (solo dueño): negocio, planes, descuentos, recargos, plantillas, equipo, medios de pago y categorías.
-import { crear } from '../comun.js?v=10';
-import { vistaPlanes } from './planes.js?v=10';
-import { vistaListaSimple, CFG_MEDIOS, CFG_CATEGORIAS } from './lista_simple.js?v=10';
-import { vistaNegocio } from './config_negocio.js?v=10';
-import { vistaPlantillas } from './config_plantillas.js?v=10';
-import { vistaDescuentos } from './config_descuentos.js?v=10';
-import { vistaRecargos } from './config_recargos.js?v=10';
-import { vistaEquipo } from './config_equipo.js?v=10';
+import { crear } from '../comun.js?v=11';
+import { vistaPlanes } from './planes.js?v=11';
+import { vistaListaSimple, CFG_MEDIOS, CFG_CATEGORIAS } from './lista_simple.js?v=11';
+import { vistaNegocio } from './config_negocio.js?v=11';
+import { vistaPlantillas } from './config_plantillas.js?v=11';
+import { vistaDescuentos } from './config_descuentos.js?v=11';
+import { vistaRecargos } from './config_recargos.js?v=11';
+import { vistaEquipo } from './config_equipo.js?v=11';
 
 const SUBVISTAS = {
   negocio: vistaNegocio, plantillas: vistaPlantillas, descuentos: vistaDescuentos, recargos: vistaRecargos, equipo: vistaEquipo,

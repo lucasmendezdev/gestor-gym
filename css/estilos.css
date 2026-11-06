@@ -266,3 +266,23 @@ a.dato.enlace-dato:hover, a.dato.enlace-dato:focus-visible { border-color: var(-
 .fila-tramo label { display: flex; flex-direction: column; gap: .2rem; font-weight: 600; font-size: .9rem; }
 .fila-tramo .boton { width: auto; }
 .codigo-invitacion { font-size: 2rem; font-weight: 800; letter-spacing: .12em; text-align: center; background: var(--fondo); border: 1px solid var(--borde); border-radius: 12px; padding: .75rem; margin: .5rem 0; overflow-wrap: anywhere; user-select: all; }
+
+/* Etapa 9B · reportes */
+.pestanas.envuelve { flex-wrap: wrap; }
+.pestanas.envuelve .pestana { flex: 1 1 30%; }
+.filtro-reporte .fila-fechas { display: grid; grid-template-columns: 1fr 1fr; gap: .6rem; margin-bottom: .6rem; }
+.filtro-reporte label { display: flex; flex-direction: column; gap: .2rem; font-weight: 600; font-size: .9rem; }
+.tabla-envoltorio { max-width: 100%; overflow-x: auto; margin-bottom: 1rem; }
+.tabla-reporte { width: 100%; border-collapse: collapse; font-size: .95rem; }
+.tabla-reporte th, .tabla-reporte td { padding: .5rem .4rem; border-bottom: 1px solid var(--borde); text-align: left; vertical-align: top; overflow-wrap: anywhere; }
+.tabla-reporte th { font-size: .85rem; color: var(--suave); }
+.tabla-reporte .num { text-align: right; white-space: nowrap; }
+.barras { display: flex; flex-direction: column; gap: .35rem; margin-bottom: 1rem; }
+.barra-fila { display: grid; grid-template-columns: 5.5rem 1fr 2.5rem; gap: .5rem; align-items: center; }
+.barra-etiqueta { font-size: .9rem; }
+.barra-caja { background: var(--fondo); border-radius: 6px; height: 1rem; overflow: hidden; display: block; }
+.barra-relleno { display: block; height: 100%; background: var(--acento); border-radius: 6px; }
+.barra-valor { text-align: right; font-weight: 600; }
+.dif-alerta { color: #c0392b; font-weight: 600; }
+@media print { .filtro-reporte, .pestanas, #rep-csv { display: none !important; } }
+.tabla-reporte .etiqueta { margin-left: .4rem; }

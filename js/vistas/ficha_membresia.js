@@ -1,8 +1,8 @@
 // Membresía y congelamientos dentro de la ficha del socio (Etapa 3B).
 // Recepción: crea la membresía con un plan y ve el estado. Dueño: además edita, cierra y congela.
-import { crear, cliente, rpc } from '../comun.js?v=10';
-import { fecha, moneda, hoyEn } from '../formato.js?v=10';
-import { campo, enviar, nuevaClave } from '../ui.js?v=10';
+import { crear, cliente, rpc } from '../comun.js?v=11';
+import { fecha, moneda, hoyEn } from '../formato.js?v=11';
+import { campo, enviar, nuevaClave } from '../ui.js?v=11';
 
 // Texto del precio: "15000,5" / "15.000,50" -> número (o null si está vacío; NaN si es inválido).
 export function leerMonto(t) {

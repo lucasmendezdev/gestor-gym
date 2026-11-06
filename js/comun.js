@@ -1,9 +1,9 @@
 // comun.js · conexión con Supabase y utilidades compartidas.
 // Regla de oro: lo que viene de la base se muestra SIEMPRE con textContent,
 // nunca con innerHTML.
-import { CONFIG } from './config.js?v=10';
+import { CONFIG } from './config.js?v=11';
 
-export const VERSION = 'Etapa 9A · v10';
+export const VERSION = 'Etapa 9B · v11';
 
 export function configurado() {
   const u = CONFIG.supabase_url || '';
@@ -82,7 +82,7 @@ export function crear(tag, props, ...hijos) {
     else if (v === true) el.setAttribute(k, '');
     else if (v !== false && v != null) el.setAttribute(k, v);
   }
-  for (const h of hijos.flat()) {
+  for (const h of hijos.flat(Infinity)) {
     if (h == null || h === false) continue;
     el.append(h.nodeType ? h : document.createTextNode(String(h)));
   }
