@@ -1,6 +1,6 @@
-import { CONFIG } from './config.js?v=9';
-import { configurado, cliente, obtenerPerfil, traducirError, aplicarMarca, crear, icono, enLinea } from './comun.js?v=9';
-import { VISTAS } from './vistas.js?v=9';
+import { CONFIG } from './config.js?v=10';
+import { configurado, cliente, obtenerPerfil, traducirError, aplicarMarca, crear, icono, enLinea } from './comun.js?v=10';
+import { VISTAS } from './vistas.js?v=10';
 
 // Orden del menú. "principal" = va en la barra inferior del teléfono.
 const SECCIONES = [

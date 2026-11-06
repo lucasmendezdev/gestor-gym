@@ -1,7 +1,7 @@
 // Planes (solo dueño): versión mínima. Se completa en la Etapa 8.
-import { crear, cliente, rpc, traducirError } from '../comun.js?v=9';
-import { moneda } from '../formato.js?v=9';
-import { campo, aviso, enviar, flash } from '../ui.js?v=9';
+import { crear, cliente, rpc, traducirError } from '../comun.js?v=10';
+import { moneda } from '../formato.js?v=10';
+import { campo, aviso, enviar, flash } from '../ui.js?v=10';
 
 export function vistaPlanes(contenedor, ctx) {
   let activa = true;

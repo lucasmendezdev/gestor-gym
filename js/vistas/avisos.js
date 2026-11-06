@@ -1,9 +1,9 @@
 // Avisos por WhatsApp (Etapa 8). Rutas: #/avisos (por vencer) · #/avisos/mora (en mora).
 // El sistema prepara el mensaje y abre WhatsApp; el aviso se registra recién cuando la persona
 // toca "Ya lo envié". No muestra importes. La bienvenida se manda desde la ficha del socio.
-import { crear, rpc, traducirError, enLinea } from '../comun.js?v=9';
-import { fecha, fechaHora, hoyEn, diasEntre, plural } from '../formato.js?v=9';
-import { aviso, enviar } from '../ui.js?v=9';
+import { crear, rpc, traducirError, enLinea } from '../comun.js?v=10';
+import { fecha, fechaHora, hoyEn, diasEntre, plural } from '../formato.js?v=10';
+import { aviso, enviar } from '../ui.js?v=10';
 
 const TIPOS = {
   vencimiento: { pestana: 'Por vencer', ruta: '#/avisos', titulo: 'Aviso de vencimiento' },

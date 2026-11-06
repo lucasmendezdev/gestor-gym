@@ -1,9 +1,9 @@
 // Cobrar cuotas y recibo (Etapa 6).
 // Rutas: #/cobrar (buscar socio) · #/cobrar/<socio> (cobro) · #/cobrar/<socio>/recibo/<cobro> (recibo).
-import { crear, cliente, rpc, traducirError } from '../comun.js?v=9';
-import { moneda, fecha, fechaHora } from '../formato.js?v=9';
-import { campo, aviso, enviar, flash, nuevaClave, esUuid } from '../ui.js?v=9';
-import { busqueda } from './socios.js?v=9';
+import { crear, cliente, rpc, traducirError } from '../comun.js?v=10';
+import { moneda, fecha, fechaHora } from '../formato.js?v=10';
+import { campo, aviso, enviar, flash, nuevaClave, esUuid } from '../ui.js?v=10';
+import { busqueda } from './socios.js?v=10';
 
 export function vistaCobrar(contenedor, ctx, params) {
   const socio = (params && params[0]) || '';

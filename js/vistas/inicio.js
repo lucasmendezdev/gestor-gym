@@ -1,6 +1,6 @@
 // Pantalla de inicio: resumen del día. Recepción ve contadores; el dueño, además, el dinero.
-import { crear, rpc, traducirError, enLinea } from '../comun.js?v=9';
-import { moneda, fechaLarga, plural } from '../formato.js?v=9';
+import { crear, rpc, traducirError, enLinea } from '../comun.js?v=10';
+import { moneda, fechaLarga, plural } from '../formato.js?v=10';
 
 function tarjeta(titulo, valor, nota, clase, href) {
   return crear(href ? 'a' : 'div', { class: 'dato ' + (clase || '') + (href ? ' enlace-dato' : ''), href: href || null },

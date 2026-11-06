@@ -1,13 +1,13 @@
 // vistas.js · qué se muestra en cada sección.
 // Cada etapa reemplaza una "vistaPendiente" por la pantalla real.
-import { crear } from './comun.js?v=9';
-import { vistaInicio } from './vistas/inicio.js?v=9';
-import { vistaSocios } from './vistas/socios.js?v=9';
-import { vistaAsistencia } from './vistas/asistencia.js?v=9';
-import { vistaCobrar } from './vistas/cobrar.js?v=9';
-import { vistaCaja } from './vistas/caja.js?v=9';
-import { vistaAvisos } from './vistas/avisos.js?v=9';
-import { vistaConfiguracion } from './vistas/configuracion.js?v=9';
+import { crear } from './comun.js?v=10';
+import { vistaInicio } from './vistas/inicio.js?v=10';
+import { vistaSocios } from './vistas/socios.js?v=10';
+import { vistaAsistencia } from './vistas/asistencia.js?v=10';
+import { vistaCobrar } from './vistas/cobrar.js?v=10';
+import { vistaCaja } from './vistas/caja.js?v=10';
+import { vistaAvisos } from './vistas/avisos.js?v=10';
+import { vistaConfiguracion } from './vistas/configuracion.js?v=10';
 
 export function vistaPendiente(etapa, descripcion) {
   return (contenedor) => {
