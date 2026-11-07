@@ -1,6 +1,6 @@
 // Pantalla de inicio: resumen del día. Recepción ve contadores; el dueño, además, el dinero.
-import { crear, rpc, traducirError, enLinea } from '../comun.js?v=11';
-import { moneda, fechaLarga, plural } from '../formato.js?v=11';
+import { crear, rpc, traducirError, enLinea } from '../comun.js?v=13';
+import { moneda, fechaLarga, plural } from '../formato.js?v=13';
 
 function tarjeta(titulo, valor, nota, clase, href) {
   return crear(href ? 'a' : 'div', { class: 'dato ' + (clase || '') + (href ? ' enlace-dato' : ''), href: href || null },
@@ -17,19 +17,20 @@ function textoCaja(c) {
 
 function pintarResumen(cont, r, ctx) {
   const caja = textoCaja(r.caja);
+  const base = ctx.edicion === 'base';
   const bloques = [
     crear('p', { class: 'fecha-hoy' }, fechaLarga(r.fecha)),
     crear('div', { class: 'grilla-datos', 'data-bloque': 'operacion' },
       tarjeta('Socios activos', String(r.socios_activos)),
       tarjeta('Adentro ahora', String(r.adentro_ahora)),
       tarjeta('Entraron hoy', String(r.entraron_hoy)),
-      tarjeta('Caja', caja.v, caja.n, caja.clase),
+      tarjeta('Caja', caja.v, caja.n, (caja.clase ? caja.clase + ' ' : '') + 'ancho'),
       tarjeta('Vencen pronto', String(r.vencen_pronto),
-        'En los próximos ' + plural(r.dias_aviso_vencimiento, 'día', 'días') + (r.vencen_pronto ? ' · ' + r.vencen_pronto_sin_avisar + ' sin avisar' : ''),
-        r.vencen_pronto ? 'atencion' : '', '#/avisos'),
+        'En los próximos ' + plural(r.dias_aviso_vencimiento, 'día', 'días') + (r.vencen_pronto && !base ? ' · ' + r.vencen_pronto_sin_avisar + ' sin avisar' : ''),
+        r.vencen_pronto ? 'atencion' : '', base ? null : '#/avisos'),
       tarjeta('En mora', String(r.en_mora),
-        r.en_mora ? r.en_mora_sin_avisar + ' sin avisar' : 'Nadie vencido',
-        r.en_mora ? 'alerta' : '', '#/avisos/mora')),
+        r.en_mora ? (base ? 'Con cuota vencida' : r.en_mora_sin_avisar + ' sin avisar') : 'Nadie vencido',
+        r.en_mora ? 'alerta' : '', base ? null : '#/avisos/mora')),
   ];
   if (r.dinero) {
     const d = r.dinero;

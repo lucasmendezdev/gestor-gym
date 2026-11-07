@@ -158,7 +158,15 @@ input:focus { border-color: var(--acento); }
 .detalle-socio { margin: 0; display: grid; grid-template-columns: max-content 1fr; gap: .35rem 1rem; }
 .detalle-socio dt { color: var(--suave); }
 .detalle-socio dd { margin: 0; font-weight: 600; overflow-wrap: anywhere; }
-@media (max-width: 480px) { .grilla-datos { grid-template-columns: repeat(2, 1fr); } .dato-valor { font-size: 1.4rem; } }
+@media (max-width: 480px) {
+  .grilla-datos { grid-template-columns: repeat(2, 1fr); }
+  .dato-valor { font-size: 1.4rem; }
+  /* Importes: una tarjeta por renglón y el número nunca se parte en dos líneas. */
+  .grilla-datos[data-bloque="dinero"] { grid-template-columns: 1fr; }
+  .grilla-datos[data-bloque="dinero"] .dato-valor { font-size: 1.75rem; }
+  .dato.ancho { grid-column: 1 / -1; }
+  .dato.ancho .dato-valor, .grilla-datos[data-bloque="dinero"] .dato-valor { white-space: nowrap; overflow-wrap: normal; }
+}
 
 .version { font-size: .75rem; margin: .15rem 0 0; }
 .centrado { text-align: center; margin-top: 1.5rem; }

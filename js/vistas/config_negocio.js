@@ -1,6 +1,6 @@
 // Configuración · Datos del negocio (solo dueño): nombre, zona horaria, prefijo de WhatsApp y días de aviso.
-import { crear, cliente, rpc, traducirError, aplicarMarca } from '../comun.js?v=11';
-import { campo, aviso, enviar, flash } from '../ui.js?v=11';
+import { crear, cliente, rpc, traducirError, aplicarMarca } from '../comun.js?v=13';
+import { campo, aviso, enviar, flash } from '../ui.js?v=13';
 
 const ZONAS = ['America/Argentina/Buenos_Aires', 'America/Argentina/Cordoba', 'America/Argentina/Mendoza', 'America/Argentina/Salta',
   'America/Argentina/Tucuman', 'America/Argentina/Ushuaia', 'America/Montevideo', 'America/Santiago', 'America/Asuncion'];

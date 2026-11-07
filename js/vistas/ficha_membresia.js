@@ -1,8 +1,8 @@
 // Membresía y congelamientos dentro de la ficha del socio (Etapa 3B).
 // Recepción: crea la membresía con un plan y ve el estado. Dueño: además edita, cierra y congela.
-import { crear, cliente, rpc } from '../comun.js?v=11';
-import { fecha, moneda, hoyEn } from '../formato.js?v=11';
-import { campo, enviar, nuevaClave } from '../ui.js?v=11';
+import { crear, cliente, rpc } from '../comun.js?v=13';
+import { fecha, moneda, hoyEn } from '../formato.js?v=13';
+import { campo, enviar, nuevaClave } from '../ui.js?v=13';
 
 // Texto del precio: "15000,5" / "15.000,50" -> número (o null si está vacío; NaN si es inválido).
 export function leerMonto(t) {
@@ -184,7 +184,7 @@ function formNueva(h) {
   if (esDueno) {
     f.append(campo('Fecha de inicio', inicio, 'Por defecto es hoy. Puede ser hasta 365 días atrás o 30 adelante.'),
       campo('Precio mensual ($)', precio, 'Vacío = precio del plan. En un plan personalizado es obligatorio.'),
-      campo('Días por semana', dias), campo('Descuento', desc));
+      campo('Días por semana', dias), ctx.edicion === 'base' ? null : campo('Descuento', desc));
   }
   f.append(err, crear('div', { class: 'fila-botones' },
     crear('button', { type: 'submit', class: 'boton' }, 'Crear membresía'),
@@ -195,7 +195,7 @@ function formNueva(h) {
       planes = (await cargarPlanes()).filter((p) => p.activo && (esDueno || !p.personalizado));
       plan.replaceChildren(crear('option', { value: '' }, planes.length ? 'Elegí un plan…' : 'No hay planes activos'),
         ...planes.map((p) => crear('option', { value: p.id }, textoPlan(p) + (p.personalizado ? '' : ' · ' + moneda(p.precio_mensual)))));
-      if (esDueno) {
+      if (esDueno && ctx.edicion !== 'base') {
         (await cargarDescuentos()).forEach((d) => desc.append(crear('option', { value: d.id }, d.nombre + ' (' + num(d.porcentaje) + ' %)')));
       }
     } catch (e) { plan.replaceChildren(crear('option', { value: '' }, 'No se pudieron cargar los planes')); }
@@ -233,7 +233,7 @@ function formEditarMem(h) {
       (num(m.descuento_pct) > 0 ? ', con ' + num(m.descuento_pct) + ' % de descuento' : '') + '. Los cambios valen para los próximos cobros: lo ya cobrado no se modifica.'),
     campo('Plan', plan, 'Si cambiás de plan y no escribís precio ni días, se usan los del plan nuevo.'),
     campo('Precio mensual ($)', precio, 'Vacío = sin cambios.'),
-    campo('Días por semana', dias), campo('Descuento', desc), err,
+    campo('Días por semana', dias), ctx.edicion === 'base' ? null : campo('Descuento', desc), err,
     crear('div', { class: 'fila-botones' },
       crear('button', { type: 'submit', class: 'boton' }, 'Guardar cambios'),
       crear('button', { type: 'button', class: 'boton secundario', onclick: h.cerrarPanel }, 'Cancelar')));
@@ -241,7 +241,7 @@ function formEditarMem(h) {
     try {
       const planes = (await cargarPlanes()).filter((p) => p.activo || p.id === m.plan_id);
       plan.replaceChildren(crear('option', { value: '' }, 'Sin cambios'), ...planes.filter((p) => p.id !== m.plan_id).map((p) => crear('option', { value: p.id }, textoPlan(p))));
-      (await cargarDescuentos()).forEach((d) => desc.append(crear('option', { value: d.id }, d.nombre + ' (' + num(d.porcentaje) + ' %)')));
+      if (ctx.edicion !== 'base') (await cargarDescuentos()).forEach((d) => desc.append(crear('option', { value: d.id }, d.nombre + ' (' + num(d.porcentaje) + ' %)')));
     } catch (e) { plan.replaceChildren(crear('option', { value: '' }, 'Sin cambios')); }
   })();
   enviar(f, err, async () => {

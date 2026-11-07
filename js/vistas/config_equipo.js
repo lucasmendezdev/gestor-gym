@@ -1,7 +1,7 @@
 // Configuración · Equipo e invitaciones (solo dueño).
-import { crear, cliente, rpc, traducirError } from '../comun.js?v=11';
-import { aviso, enviar, flash } from '../ui.js?v=11';
-import { fechaHora } from '../formato.js?v=11';
+import { crear, cliente, rpc, traducirError } from '../comun.js?v=13';
+import { aviso, enviar, flash } from '../ui.js?v=13';
+import { fechaHora } from '../formato.js?v=13';
 
 export function vistaEquipo(contenedor, ctx) {
   let activa = true;

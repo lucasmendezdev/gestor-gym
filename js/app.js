@@ -1,6 +1,6 @@
-import { CONFIG } from './config.js?v=11';
-import { configurado, cliente, obtenerPerfil, traducirError, aplicarMarca, crear, icono, enLinea } from './comun.js?v=11';
-import { VISTAS } from './vistas.js?v=11';
+import { CONFIG } from './config.js?v=13';
+import { configurado, cliente, obtenerPerfil, traducirError, aplicarMarca, crear, icono, enLinea } from './comun.js?v=13';
+import { VISTAS } from './vistas.js?v=13';
 
 // Orden del menú. "principal" = va en la barra inferior del teléfono.
 const SECCIONES = [
@@ -9,8 +9,8 @@ const SECCIONES = [
   { id: 'cobrar', titulo: 'Cobrar', principal: true },
   { id: 'asistencia', titulo: 'Asistencia', principal: true },
   { id: 'caja', titulo: 'Caja' },
-  { id: 'avisos', titulo: 'Avisos' },
-  { id: 'reportes', titulo: 'Reportes', soloDueno: true },
+  { id: 'avisos', titulo: 'Avisos', soloFull: true },
+  { id: 'reportes', titulo: 'Reportes', soloDueno: true, soloFull: true },
   { id: 'configuracion', titulo: 'Configuración', soloDueno: true },
 ];
 
@@ -118,10 +118,15 @@ async function arrancar() {
     if (data && data.prefijo_whatsapp) ctx.prefijo = data.prefijo_whatsapp;
     if (data && data.aviso_vencimiento_dias != null) ctx.diasAviso = data.aviso_vencimiento_dias;
   } catch (_) { /* usa el nombre de config.js */ }
+  ctx.edicion = 'full';
+  try {
+    const { data } = await cliente().from('licencia').select('edicion').limit(1).maybeSingle();
+    if (data && data.edicion === 'base') ctx.edicion = 'base';
+  } catch (_) { /* sin dato: se asume Full (las funciones igual lo validan en la base) */ }
   ctx.negocio = nombreGym;
   aplicarMarca(nombreGym);
 
-  visibles = SECCIONES.filter((s) => !s.soloDueno || r.perfil.rol === 'dueno');
+  visibles = SECCIONES.filter((s) => (!s.soloDueno || r.perfil.rol === 'dueno') && (!s.soloFull || ctx.edicion !== 'base'));
   $('usuario-nombre').textContent = r.perfil.nombre;
   $('usuario-rol').textContent = r.perfil.rol === 'dueno' ? 'Dueño' : 'Recepción';
   armarMenu();

@@ -1,9 +1,9 @@
 // Cobrar cuotas y recibo (Etapa 6).
 // Rutas: #/cobrar (buscar socio) · #/cobrar/<socio> (cobro) · #/cobrar/<socio>/recibo/<cobro> (recibo).
-import { crear, cliente, rpc, traducirError } from '../comun.js?v=11';
-import { moneda, fecha, fechaHora } from '../formato.js?v=11';
-import { campo, aviso, enviar, flash, nuevaClave, esUuid } from '../ui.js?v=11';
-import { busqueda } from './socios.js?v=11';
+import { crear, cliente, rpc, traducirError } from '../comun.js?v=13';
+import { moneda, fecha, fechaHora } from '../formato.js?v=13';
+import { campo, aviso, enviar, flash, nuevaClave, esUuid } from '../ui.js?v=13';
+import { busqueda } from './socios.js?v=13';
 
 export function vistaCobrar(contenedor, ctx, params) {
   const socio = (params && params[0]) || '';
@@ -84,7 +84,7 @@ function vistaCobro(contenedor, ctx, socioId) {
 
     const f = crear('form', { class: 'formulario', novalidate: true },
       !caja.hay_caja ? crear('p', { class: 'aviso-caja error', id: 'aviso-sin-caja' }, 'No hay caja abierta: este cobro queda sin caja y no entra en el arqueo.') : null,
-      campo('Meses a cobrar', meses, 'De 1 a 24. Si hay un paquete por adelantado para esa cantidad, el sistema aplica el descuento.'),
+      campo('Meses a cobrar', meses, (ctx.edicion === 'base' ? 'De 1 a 24.' : 'De 1 a 24. Si hay un paquete por adelantado para esa cantidad, el sistema aplica el descuento.')),
       campo('Medio de pago', medio),
       esDueno ? crear('div', { class: 'campo casilla' }, perdonar, crear('label', { for: 'k-perdonar' }, 'Perdonar el recargo por atraso')) : null,
       filaMotivo, detalle, err, boton);

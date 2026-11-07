@@ -1,6 +1,6 @@
 // Alta de socio.
-import { crear, rpc } from '../comun.js?v=11';
-import { campo, aviso, enviar, limpiarTelefono, soloNumeros } from '../ui.js?v=11';
+import { crear, rpc } from '../comun.js?v=13';
+import { campo, aviso, enviar, limpiarTelefono, soloNumeros } from '../ui.js?v=13';
 
 export function vistaSocioNuevo(contenedor, ctx) {
   const esDueno = ctx.perfil.rol === 'dueno';
