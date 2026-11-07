@@ -1,9 +1,9 @@
 // Reportes (Etapa 9B, solo dueño): ingresos, gastos, morosidad, asistencia, socios y cajas.
 // Rutas: #/reportes (ingresos) · #/reportes/<pestaña>. El rango se recuerda mientras dura la sesión.
-import { crear, rpc, traducirError, enLinea } from '../comun.js?v=16';
-import { moneda, fecha, fechaHora, hoyEn, plural } from '../formato.js?v=16';
-import { aviso } from '../ui.js?v=16';
-import { aCsv, descargarCsv } from '../csv.js?v=16';
+import { crear, rpc, traducirError, enLinea } from '../comun.js?v=17';
+import { moneda, fecha, fechaHora, hoyEn, plural } from '../formato.js?v=17';
+import { aviso } from '../ui.js?v=17';
+import { aCsv, descargarCsv } from '../csv.js?v=17';
 
 const MAX_DIAS = 366;
 const dif = (a, b) => Math.round((Date.UTC(+b.slice(0, 4), +b.slice(5, 7) - 1, +b.slice(8, 10)) - Date.UTC(+a.slice(0, 4), +a.slice(5, 7) - 1, +a.slice(8, 10))) / 86400000);

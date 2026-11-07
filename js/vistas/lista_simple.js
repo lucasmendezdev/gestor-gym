@@ -1,6 +1,6 @@
 // Lista simple de "nombre + activo" (medios de pago y categorías de gasto). Solo dueño.
-import { crear, cliente, rpc, traducirError } from '../comun.js?v=16';
-import { campo, aviso, enviar, flash } from '../ui.js?v=16';
+import { crear, cliente, rpc, traducirError } from '../comun.js?v=17';
+import { campo, aviso, enviar, flash } from '../ui.js?v=17';
 
 export function vistaListaSimple(contenedor, ctx, cfg) {
   let activa = true;

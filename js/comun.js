@@ -1,9 +1,9 @@
 // comun.js · conexión con Supabase y utilidades compartidas.
 // Regla de oro: lo que viene de la base se muestra SIEMPRE con textContent,
 // nunca con innerHTML.
-import { CONFIG } from './config.js?v=16';
+import { CONFIG } from './config.js?v=17';
 
-export const VERSION = 'Etapa 10 · v16';
+export const VERSION = 'Etapa 11 · v17';
 
 export function configurado() {
   const u = CONFIG.supabase_url || '';
@@ -95,6 +95,7 @@ const ICONOS = {
   cobrar: 'M3 7h18v10H3zM15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0z',
   asistencia: 'M5 13l4 4L19 7',
   caja: 'M4 8l8-4 8 4v10l-8 4-8-4zM4 8l8 4 8-4M12 12v10',
+  rutinas: 'M6 6v12M18 6v12M3 9v6M21 9v6M6 12h12',
   avisos: 'M6 16v-5a6 6 0 1 1 12 0v5l2 2H4zM10 21h4',
   reportes: 'M4 20V10M10 20V4M16 20v-8M22 20H2',
   configuracion: 'M4 6h16M4 12h16M4 18h16M8 4v4M16 10v4M10 16v4',

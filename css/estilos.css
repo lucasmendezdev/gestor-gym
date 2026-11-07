@@ -313,3 +313,35 @@ a.dato.enlace-dato:hover, a.dato.enlace-dato:focus-visible { border-color: var(-
 }
 
 .filtro-reporte .fila-fechas label, .filtro-reporte .fila-fechas input { min-width: 0; }
+
+/* ---- Rutinas ---- */
+.rutina-contenido { margin-bottom: 1rem; }
+.rutina-objetivo, .rutina-indicaciones { margin: .25rem 0 .5rem; }
+.rutina-notas { white-space: pre-line; color: var(--suave); margin: .25rem 0 .75rem; }
+.rutina-dia { background: var(--superficie); border: 1px solid var(--borde); border-radius: var(--radio); padding: .6rem .9rem .8rem; margin-bottom: .75rem; }
+.rutina-dia h3 { margin: .2rem 0 .4rem; font-size: 1.05rem; }
+.rutina-ejercicios { margin: 0; padding-left: 1.3rem; }
+.rutina-ejercicio { padding: .35rem 0; border-top: 1px solid var(--borde); }
+.rutina-ejercicio:first-child { border-top: 0; }
+.rutina-ejercicio strong { display: block; }
+.rutina-detalle { display: block; color: var(--suave); }
+.rutina-nota { display: block; color: var(--suave); font-size: .9rem; }
+.dia-editor { margin-bottom: .75rem; }
+.dia-cabecera { display: flex; flex-direction: column; gap: .4rem; margin-bottom: .6rem; }
+.ej-fila { display: flex; flex-direction: column; gap: .5rem; padding: .7rem 0; border-top: 1px solid var(--borde); }
+.ej-numeros { display: grid; grid-template-columns: .8fr 1.2fr 1.2fr; gap: .5rem; }
+.ej-mini { display: flex; flex-direction: column; gap: .15rem; font-size: .8rem; font-weight: 600; min-width: 0; }
+.ej-mini input { min-width: 0; }
+.ej-fila .fila-botones .boton { flex: 0 1 auto; min-width: 3rem; }
+.rutina-vigente { display: flex; flex-direction: column; gap: .5rem; padding-bottom: .6rem; }
+.lista-historial { list-style: none; margin: 0; padding: 0; }
+.lista-historial li { display: flex; flex-direction: column; padding: .4rem 0; border-top: 1px solid var(--borde); }
+.solo-impresion { display: none; }
+@media print {
+  .lateral, .barra, .inferior, .panel-mas, .franja-sin-conexion, .no-imprimir, .panel-accion { display: none !important; }
+  .solo-impresion { display: block; margin-bottom: .75rem; font-size: 1.1rem; }
+  .armazon { display: block; }
+  .contenido { padding: 0; max-width: none; }
+  .rutina-dia { break-inside: avoid; box-shadow: none; }
+  body { background: #fff; color: #000; }
+}

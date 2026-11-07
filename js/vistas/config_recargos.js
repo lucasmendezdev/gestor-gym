@@ -1,6 +1,6 @@
 // Configuración · Recargos por mora (solo dueño). Se guardan todos los tramos juntos.
-import { crear, cliente, rpc, traducirError } from '../comun.js?v=16';
-import { aviso, enviar, flash } from '../ui.js?v=16';
+import { crear, cliente, rpc, traducirError } from '../comun.js?v=17';
+import { aviso, enviar, flash } from '../ui.js?v=17';
 
 const MAX = 10; // el mismo máximo que la base
 const num = (t) => Number(String(t).trim().replace(',', '.'));

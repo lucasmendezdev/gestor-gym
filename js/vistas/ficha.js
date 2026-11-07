@@ -1,9 +1,10 @@
 // Ficha de un socio: datos, estado, edición, baja y reactivación.
-import { crear, cliente, rpc, traducirError } from '../comun.js?v=16';
-import { estadoSocio, fecha, hoyEn } from '../formato.js?v=16';
-import { campo, aviso, enviar } from '../ui.js?v=16';
-import { formAviso } from './avisos.js?v=16';
-import { bloqueMembresia, cargarExtra } from './ficha_membresia.js?v=16';
+import { crear, cliente, rpc, traducirError } from '../comun.js?v=17';
+import { estadoSocio, fecha, hoyEn } from '../formato.js?v=17';
+import { campo, aviso, enviar } from '../ui.js?v=17';
+import { formAviso } from './avisos.js?v=17';
+import { bloqueMembresia, cargarExtra } from './ficha_membresia.js?v=17';
+import { bloqueRutinas } from './ficha_rutinas.js?v=17';
 
 export function vistaFicha(contenedor, ctx, id) {
   let activa = true;
@@ -146,6 +147,7 @@ export function vistaFicha(contenedor, ctx, id) {
       baja ? null : crear('p', { class: 'suave', id: 'ficha-detalle' }, e.detalle),
       crear('div', { class: 'tarjeta' }, crear('h3', {}, 'Datos'), datos),
       tarjetaMem,
+      ctx.edicion === 'base' ? null : bloqueRutinas({ ctx, id, baja, esDueno, abrirPanel, cerrarPanel, recargar: cargar }),
       acciones, panel);
   }
 
