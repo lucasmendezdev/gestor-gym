@@ -164,6 +164,8 @@ input:focus { border-color: var(--acento); }
   /* Importes: una tarjeta por renglón y el número nunca se parte en dos líneas. */
   .grilla-datos[data-bloque="dinero"] { grid-template-columns: 1fr; }
   .grilla-datos[data-bloque="dinero"] .dato-valor { font-size: 1.75rem; }
+  .grilla-datos.con-importes { grid-template-columns: 1fr; }
+  .grilla-datos.con-importes .dato-valor { font-size: 1.75rem; white-space: nowrap; overflow-wrap: normal; }
   .dato.ancho { grid-column: 1 / -1; }
   .dato.ancho .dato-valor, .grilla-datos[data-bloque="dinero"] .dato-valor { white-space: nowrap; overflow-wrap: normal; }
 }
@@ -294,3 +296,20 @@ a.dato.enlace-dato:hover, a.dato.enlace-dato:focus-visible { border-color: var(-
 .dif-alerta { color: #c0392b; font-weight: 600; }
 @media print { .filtro-reporte, .pestanas, #rep-csv { display: none !important; } }
 .tabla-reporte .etiqueta { margin-left: .4rem; }
+
+/* Teléfono: las tablas de reportes pasan a una tarjeta por fila (título + dato: valor). */
+@media (max-width: 600px) {
+  .tabla-envoltorio { overflow-x: visible; }
+  .tabla-reporte, .tabla-reporte tbody, .tabla-reporte tr, .tabla-reporte td { display: block; width: 100%; }
+  .tabla-reporte thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  .tabla-reporte tr { background: var(--superficie); border: 1px solid var(--borde); border-radius: var(--radio); padding: .55rem .85rem; margin-bottom: .55rem; }
+  .tabla-reporte td { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; padding: .15rem 0; border: 0; overflow-wrap: normal; text-align: right; }
+  .tabla-reporte td::before { content: attr(data-label); color: var(--suave); font-size: .85rem; font-weight: 600; text-align: left; flex: none; }
+  .tabla-reporte td:first-child { display: block; text-align: left; font-weight: 700; padding-bottom: .3rem; overflow-wrap: anywhere; }
+  .tabla-reporte td:first-child::before { content: none; }
+  .tabla-reporte td.num { white-space: normal; }
+  .tabla-reporte td .celda { min-width: 0; text-align: right; }
+  .tabla-reporte td:first-child .celda { text-align: left; }
+}
+
+.filtro-reporte .fila-fechas label, .filtro-reporte .fila-fechas input { min-width: 0; }

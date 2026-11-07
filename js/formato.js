@@ -1,9 +1,10 @@
 // formato.js · formatos argentinos y estados de socio.
 const MONEDA = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS', minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
+// El espacio entre el $ y el número es no separable: así un importe nunca se corta en dos renglones.
 export function moneda(n) {
   const v = Number(n);
-  return Number.isFinite(v) ? MONEDA.format(v).replace(/ /g, ' ') : '—';
+  return Number.isFinite(v) ? MONEDA.format(v).replace(/\s/g, '\u00a0') : '—';
 }
 
 // 'YYYY-MM-DD' -> 'DD/MM/AAAA' (sin pasar por Date: no hay corrimientos de zona)

@@ -1,7 +1,7 @@
 // Asistencia: entradas, salidas y quién está adentro (Etapa 7). No muestra importes.
-import { crear, rpc, traducirError, enLinea } from '../comun.js?v=13';
-import { estadoSocio, hoyEn, fechaHora, plural } from '../formato.js?v=13';
-import { campo, aviso, enviar, nuevaClave } from '../ui.js?v=13';
+import { crear, rpc, traducirError, enLinea } from '../comun.js?v=16';
+import { estadoSocio, hoyEn, fechaHora, plural } from '../formato.js?v=16';
+import { campo, aviso, enviar, nuevaClave } from '../ui.js?v=16';
 
 const ESPERA_MS = 350;
 const hora = (iso, zona) => fechaHora(iso, zona).split(' ')[1] || '—';

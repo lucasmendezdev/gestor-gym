@@ -1,9 +1,9 @@
 // Ficha de un socio: datos, estado, edición, baja y reactivación.
-import { crear, cliente, rpc, traducirError } from '../comun.js?v=13';
-import { estadoSocio, fecha, hoyEn } from '../formato.js?v=13';
-import { campo, aviso, enviar } from '../ui.js?v=13';
-import { formAviso } from './avisos.js?v=13';
-import { bloqueMembresia, cargarExtra } from './ficha_membresia.js?v=13';
+import { crear, cliente, rpc, traducirError } from '../comun.js?v=16';
+import { estadoSocio, fecha, hoyEn } from '../formato.js?v=16';
+import { campo, aviso, enviar } from '../ui.js?v=16';
+import { formAviso } from './avisos.js?v=16';
+import { bloqueMembresia, cargarExtra } from './ficha_membresia.js?v=16';
 
 export function vistaFicha(contenedor, ctx, id) {
   let activa = true;

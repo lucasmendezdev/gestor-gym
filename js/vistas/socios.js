@@ -1,9 +1,9 @@
 // Sección Socios: búsqueda, alta y ficha.
-import { crear, rpc, traducirError, enLinea } from '../comun.js?v=13';
-import { estadoSocio, hoyEn } from '../formato.js?v=13';
-import { esUuid } from '../ui.js?v=13';
-import { vistaSocioNuevo } from './socio_nuevo.js?v=13';
-import { vistaFicha } from './ficha.js?v=13';
+import { crear, rpc, traducirError, enLinea } from '../comun.js?v=16';
+import { estadoSocio, hoyEn } from '../formato.js?v=16';
+import { esUuid } from '../ui.js?v=16';
+import { vistaSocioNuevo } from './socio_nuevo.js?v=16';
+import { vistaFicha } from './ficha.js?v=16';
 
 const ESPERA_MS = 350;
 

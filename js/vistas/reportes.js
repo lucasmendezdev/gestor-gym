@@ -1,9 +1,9 @@
 // Reportes (Etapa 9B, solo dueño): ingresos, gastos, morosidad, asistencia, socios y cajas.
 // Rutas: #/reportes (ingresos) · #/reportes/<pestaña>. El rango se recuerda mientras dura la sesión.
-import { crear, rpc, traducirError, enLinea } from '../comun.js?v=13';
-import { moneda, fecha, fechaHora, hoyEn, plural } from '../formato.js?v=13';
-import { aviso } from '../ui.js?v=13';
-import { aCsv, descargarCsv } from '../csv.js?v=13';
+import { crear, rpc, traducirError, enLinea } from '../comun.js?v=16';
+import { moneda, fecha, fechaHora, hoyEn, plural } from '../formato.js?v=16';
+import { aviso } from '../ui.js?v=16';
+import { aCsv, descargarCsv } from '../csv.js?v=16';
 
 const MAX_DIAS = 366;
 const dif = (a, b) => Math.round((Date.UTC(+b.slice(0, 4), +b.slice(5, 7) - 1, +b.slice(8, 10)) - Date.UTC(+a.slice(0, 4), +a.slice(5, 7) - 1, +a.slice(8, 10))) / 86400000);
@@ -13,14 +13,15 @@ const nombreCompleto = (s) => s.apellido + ', ' + s.nombre;
 
 // ---- piezas de pantalla ----
 function datos(items) {
-  return crear('div', { class: 'grilla-datos' }, items.map(([t, v, nota, clase, id]) =>
+  const conImporte = items.some(([, v]) => /^-?\$/.test(String(v)));
+  return crear('div', { class: 'grilla-datos' + (conImporte ? ' con-importes' : '') }, items.map(([t, v, nota, clase, id]) =>
     crear('div', { class: 'dato ' + (clase || ''), 'data-dato': id || null }, crear('div', { class: 'dato-titulo' }, t), crear('div', { class: 'dato-valor' }, v), nota ? crear('div', { class: 'dato-nota' }, nota) : null)));
 }
 function tabla(id, columnas, filas, vacio) {
   if (!filas.length) return crear('p', { class: 'suave', id: id + '-vacio' }, vacio);
   return crear('div', { class: 'tabla-envoltorio' }, crear('table', { class: 'tabla-reporte', id },
     crear('thead', {}, crear('tr', {}, columnas.map((c) => crear('th', { class: c.num ? 'num' : '' }, c.t)))),
-    crear('tbody', {}, filas.map((f) => crear('tr', {}, f.map((c, i) => crear('td', { class: columnas[i].num ? 'num' : '' }, c)))))));
+    crear('tbody', {}, filas.map((f) => crear('tr', {}, f.map((c, i) => crear('td', { class: columnas[i].num ? 'num' : '', 'data-label': columnas[i].t }, crear('span', { class: 'celda' }, c))))))));
 }
 function barras(id, items, vacio) {
   const max = Math.max(0, ...items.map((i) => i.valor));

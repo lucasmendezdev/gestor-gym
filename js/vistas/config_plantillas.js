@@ -1,7 +1,7 @@
 // Configuración · Plantillas de aviso por WhatsApp (solo dueño).
-import { crear, cliente, rpc, traducirError } from '../comun.js?v=13';
-import { aviso, enviar, flash } from '../ui.js?v=13';
-import { fechaHora } from '../formato.js?v=13';
+import { crear, cliente, rpc, traducirError } from '../comun.js?v=16';
+import { aviso, enviar, flash } from '../ui.js?v=16';
+import { fechaHora } from '../formato.js?v=16';
 
 const TIPOS = [
   { tipo: 'bienvenida', titulo: 'Bienvenida', vars: ['nombre', 'numero'], cuando: 'Se manda desde la ficha del socio.' },

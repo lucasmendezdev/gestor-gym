@@ -1,6 +1,6 @@
 // Configuración · Descuentos y paquetes de pago adelantado (solo dueño).
-import { crear, cliente, rpc, traducirError } from '../comun.js?v=13';
-import { campo, aviso, enviar, flash } from '../ui.js?v=13';
+import { crear, cliente, rpc, traducirError } from '../comun.js?v=16';
+import { campo, aviso, enviar, flash } from '../ui.js?v=16';
 
 const CATEGORIAS = { plan: 'Plan', familiar: 'Familiar', promo: 'Promoción', otro: 'Otro' };
 const num = (t) => Number(String(t).trim().replace(',', '.'));
